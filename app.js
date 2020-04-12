@@ -1,5 +1,6 @@
 // add npm package inquirer
 const inquirer = require("inquirer");
+const fs = require("fs");
 
 // add developer modules
 var Employee = require("./lib/Employee.js");
@@ -50,7 +51,7 @@ const baseQuestions = [
 ];
 
 function init(){
-
+  
   // prompt for initial questions
   // inquirer
   //   .prompt(initialQuestions)
@@ -58,22 +59,22 @@ function init(){
   //     console.log(initial)
 
       // prompt for base questions
-      inquirer
-        .prompt(baseQuestions)
-        .then (function(response){
-            console.log(response)
+      // inquirer
+      //   .prompt(baseQuestions)
+      //   .then (function(response){
+      //       console.log(response)
 
             
-            var employee = new Employee(response)
-            console.log(employee)
-            var manager = new Manager(response)
-            console.log(manager)
-            var engineer = new Engineer(response)
-            console.log(engineer)
-            var intern = new Intern(response)
-            console.log(intern)
+      //       var employee = new Employee(response)
+      //       console.log(employee)
+      //       var manager = new Manager(response)
+      //       console.log(manager)
+      //       var engineer = new Engineer(response)
+      //       console.log(engineer)
+      //       var intern = new Intern(response)
+      //       console.log(intern)
     
-        });  
+      //   });  
 }
 
 init();
