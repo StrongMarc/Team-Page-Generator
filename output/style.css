@@ -1,0 +1,18 @@
+html, body {
+    height: 100%;
+}
+
+main {
+    background-color: #ff652f;
+}
+header h1{
+    padding: 20px;
+    font-size: 40px; 
+    text-align: center;
+    font-family: 'Trebu4het MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; */
+}
+
+section {
+    margin: 10px;
+    float: left;
+}
