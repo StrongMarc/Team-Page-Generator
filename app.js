@@ -3,6 +3,7 @@ const inquirer = require("inquirer");
 
 // add developer modules
 var Employee = require("./lib/Employee.js");
+var Manager = require("./lib/Manager.js");
 var Engineer = require("./lib/Engineer.js");
 var Intern = require("./lib/Intern.js");
 
@@ -36,10 +37,13 @@ function init(){
         
         var employee = new Employee(response)
         console.log(employee)
+        var manager = new Manager(response)
+        console.log(manager)
         var engineer = new Engineer(response)
         console.log(engineer)
         var intern = new Intern(response)
         console.log(intern)
+ 
     });  
 }
 
