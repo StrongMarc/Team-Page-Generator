@@ -4,6 +4,7 @@ const inquirer = require("inquirer");
 // add developer modules
 var Employee = require("./lib/Employee.js");
 var Engineer = require("./lib/Engineer.js");
+var Intern = require("./lib/Intern.js");
 
 // questions to prompt
 const questions = [
@@ -37,6 +38,8 @@ function init(){
         console.log(employee)
         var engineer = new Engineer(response)
         console.log(engineer)
+        var intern = new Intern(response)
+        console.log(intern)
     });  
 }
 
