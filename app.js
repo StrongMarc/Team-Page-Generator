@@ -50,8 +50,33 @@ const baseQuestions = [
     },   
 ];
 
+
+
 function init(){
   
+  var array = "";
+  let filename = "./templates/main.html"
+  readFile(filename)
+
+  // read main.html
+  function readFile(fileName) {
+    // code for reading main.html file
+    fs.readFile(fileName, "utf8", function(error, data) {
+      if (error) {
+        return console.log(error);
+      }
+      console.log(`Success read!`);
+
+      fs.writeFile("./output/team2.html", data, function(err){
+        if(err){
+          throw err;
+        }
+        console.log("Successfuly wrote to dogs.json file")
+      });
+    });  // end fs.readFile
+  } // end function readFile
+
+      
   // prompt for initial questions
   // inquirer
   //   .prompt(initialQuestions)
@@ -75,6 +100,10 @@ function init(){
       //       console.log(intern)
     
       //   });  
+      
+      
+
+     
 }
 
 init();
