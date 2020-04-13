@@ -35,24 +35,70 @@ const initialQuestions = [
 const managerQuestions = [
     {
       type: "input",
-      message: "What is the name?",
+      message: "What is the manager name?",
       name: "name",
     },
     {
       type: "input",
-      message: "What is the ID#?",
+      message: "What is the manager ID#?",
       name: "id",
     },
     {
       type: "input",
-      message: "What is the email?",
+      message: "What is the manager email?",
       name: "email",
     },
     {
       type: "input",
-      message: "What is the office number?",
+      message: "What is the manager office number?",
       name: "officeNumber",
     },
+];
+
+const engineerQuestions = [
+  {
+    type: "input",
+    message: "What is the engineer name?",
+    name: "name",
+  },
+  {
+    type: "input",
+    message: "What is the engineer ID#?",
+    name: "id",
+  },
+  {
+    type: "input",
+    message: "What is the engineer email?",
+    name: "email",
+  },
+  {
+    type: "input",
+    message: "What is the engineer GitHub Username?",
+    name: "officeNumber",
+  },
+];
+
+const internQuestions = [
+  {
+    type: "input",
+    message: "What is the intern name?",
+    name: "name",
+  },
+  {
+    type: "input",
+    message: "What is the intern ID#?",
+    name: "id",
+  },
+  {
+    type: "input",
+    message: "What is the intern email?",
+    name: "email",
+  },
+  {
+    type: "input",
+    message: "What is the intern school?",
+    name: "officeNumber",
+  },
 ];
 
 
@@ -67,25 +113,7 @@ function init(){
         // for (i=0; i < initial.managerNumber-1; i++) {
          managerInput();
         // }
-        // prompt for base questions
-        // inquirer
-        //   .prompt(baseQuestions)
-        //   .then (function(response){
-        //       console.log(response)
-
-              
-        //       var employee = new Employee(response)
-        //       console.log(employee)
-        //       var manager = new Manager(response)
-        //       console.log(manager)
-        //       var engineer = new Engineer(response)
-        //       console.log(engineer)
-        //       var intern = new Intern(response)
-        //       console.log(intern)
-      
-        //   });  
-      //   });  
-        //   });  
+        
 
     var array = "";
     let filename = "./templates/main.html"
