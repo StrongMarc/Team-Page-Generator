@@ -32,7 +32,7 @@ const initialQuestions = [
   },   
 ];
 
-const baseQuestions = [
+const managerQuestions = [
     {
       type: "input",
       message: "What is the name?",
@@ -47,9 +47,13 @@ const baseQuestions = [
       type: "input",
       message: "What is the email?",
       name: "email",
-    },   
+    },
+    {
+      type: "input",
+      message: "What is the office number?",
+      name: "officeNumber",
+    },
 ];
-
 
 
 function init(){
@@ -61,39 +65,7 @@ function init(){
         console.log(initial)
         console.log(initial.managerNumber-1)
         // for (i=0; i < initial.managerNumber-1; i++) {
-          console.log("Manager Input:")
-          inquirer
-            .prompt(baseQuestions)
-            .then (function(response){
-              var employee = new Employee(response.name, response.id, response.email)
-              var manager = new Manager(response.name, response.id, response.email, 3)
-              console.log(manager.officeNumber)
-
-              let filename = "./templates/manager.html"
-              readFile(filename, manager)
-
-              // read manager.html
-              function readFile(fileName, manager) {
-                // code for reading manager.html file
-                fs.readFile(fileName, "utf8", function(error, data) {
-                  if (error) {
-                    return console.log(error);
-                  }
-                  console.log(`Success read manager!`);
-                  console.log(data)
-                  //https://www.w3schools.com/jsref/jsref_replace.asp
-                 
-                  newDataStr = updateContent(data, manager)
-                  console.log(newDataStr)
-                  // fs.writeFile("./output/team2.html", data, function(err){
-                  //   if(err){
-                  //     throw err;
-                  //   }
-                  //   console.log("Successfuly wrote to team2.html file")
-                  // });
-                });  // end fs.readFile
-              } // end function readFile  
-            })
+         managerInput();
         // }
         // prompt for base questions
         // inquirer
@@ -141,6 +113,41 @@ function init(){
 
 
 init();
+
+function managerInput(){
+  console.log("Manager Input:")
+  inquirer
+    .prompt(managerQuestions)
+    .then (function(response){
+      var employee = new Employee(response.name, response.id, response.email)
+      var manager = new Manager(response.name, response.id, response.email, response.officeNumber)
+
+      let filename = "./templates/manager.html"
+      readFile(filename, manager)
+
+      // read manager.html
+      function readFile(fileName, manager) {
+        // code for reading manager.html file
+        fs.readFile(fileName, "utf8", function(error, data) {
+          if (error) {
+            return console.log(error);
+          }
+          console.log(`Success read manager!`);
+          console.log(data)
+          //https://www.w3schools.com/jsref/jsref_replace.asp
+         
+          newDataStr = updateContent(data, manager)
+          console.log(newDataStr)
+          // fs.writeFile("./output/team2.html", data, function(err){
+          //   if(err){
+          //     throw err;
+          //   }
+          //   console.log("Successfuly wrote to team2.html file")
+          // });
+        });  // end fs.readFile
+      } // end function readFile  
+    })
+}
 
 function updateContent (data, role){
   console.log(data)
