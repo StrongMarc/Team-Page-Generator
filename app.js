@@ -102,19 +102,8 @@ const internQuestions = [
   },
 ];
 
-// write to team.html
-function writeToFile(filename, data){
-   // code for writing team.html file
-  fs.writeFile(filename, data, function(err){
-    if(err){
-      throw err;
-    }
-    console.log("Successfuly wrote to team2.html file")
-  });
-}
-
 function init(){
-  strArray = [];  //globalize and variable array
+  teamArray = [];  //globalize and variable array
   var i = 0;
   // prompt for initial questions
     inquirer
@@ -123,35 +112,25 @@ function init(){
         console.log(initial)
 
         // for (i=0; i < initial.managerNumber; i++) {
-        //  managerInput();
+         managerInput();
         // }
-        while (i < initial.managerNumber){
-          managerInput();
-          i++;
-        }
-   
+        // while (i < initial.managerNumber){
+        //   managerInput();
+        //   i++;
+        // }
+        engineerInput();
+
     let filename = "./templates/main.html"
-    readFile(filename)
-
-    // read main.html
-    function readFile(fileName) {
-      // code for reading main.html file
-      fs.readFile(fileName, "utf8", function(error, data) {
-        if (error) {
-          return console.log(error);
-        }
-        // console.log(`Success read!`);
-
-        let filename = "./output/team.html"
-        writeToFile(filename, data)
-      });  // end fs.readFile
-    } // end function readFile  
+    readMainFile(filename)
+   
   })
 }
 
+// function to get manager input
 async function managerInput(){
   try{
   console.log("Manager Input:")
+  //prompt for manager input properties
   await inquirer
     .prompt(managerQuestions)
     .then (function(response){
@@ -170,21 +149,50 @@ async function managerInput(){
           }
           console.log(`Success read manager!`);
           
+          // change %XXX to designated class properties
           newDataStr = updateContent(data, manager)
-          strArray.push(newDataStr)
-          console.log(strArray)
-          // fs.writeFile("./output/team2.html", data, function(err){
-          //   if(err){
-          //     throw err;
-          //   }
-          //   console.log("Successfuly wrote to team2.html file")
-          // });
+          teamArray.push(newDataStr)
+          // console.log(teamArray)
+         
         });  // end fs.readFile
       } // end function readFile  
     })
   } catch (err){
     console.log(err)
   }
+}
+
+// function to get manager input
+function engineerInput(){
+
+  console.log("Engineer Input:")
+  //prompt for manager input properties
+  inquirer
+    .prompt(engineerQuestions)
+    .then (function(response){
+      var employee = new Employee(response.name, response.id, response.email)
+      var engineer = new Engineer(response.name, response.id, response.email, response.officeNumber)
+
+      let filename = "./templates/engineer.html"
+      readFile(filename, engineer)
+
+      // read manager.html
+      function readFile(fileName, engineer) {
+        // code for reading manager.html file
+        fs.readFile(fileName, "utf8", function(error, data) {
+          if (error) {
+            return console.log(error);
+          }
+          console.log(`Success read engineer!`);
+          
+          // change %XXX to designated class properties
+          newDataStr = updateContent(data, engineer)
+          teamArray.push(newDataStr)
+          console.log(teamArray)
+         
+        });  // end fs.readFile
+      } // end function readFile  
+    })
 }
 
 //https://www.w3schools.com/jsref/jsref_replace.asp, replace text with role.property
@@ -213,5 +221,29 @@ function updateContent (data, role){
 
 }
 
+// read main.html and then write 
+function readMainFile(fileName) {
+  // code for reading main.html file
+  fs.readFile(fileName, "utf8", function(error, data) {
+    if (error) {
+      return console.log(error);
+    }
+    // console.log(`Success read!`);
+
+    let filename = "./output/team.html"
+    writeToFile(filename, data)
+  });  // end fs.readFile
+} // end function readFile  
+
+// write to team.html
+function writeToFile(filename, data){
+   // code for writing team.html file
+  fs.writeFile(filename, data, function(err){
+    if(err){
+      throw err;
+    }
+    console.log("Successfuly wrote to team2.html file")
+  });
+}
 
 init();
