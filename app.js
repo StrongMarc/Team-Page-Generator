@@ -8,6 +8,7 @@ var Manager = require("./lib/Manager.js");
 var Engineer = require("./lib/Engineer.js");
 var Intern = require("./lib/Intern.js");
 
+
 // questions to prompt
 const initialQuestions = [
   {
@@ -101,19 +102,16 @@ const internQuestions = [
   },
 ];
 
-
 function init(){
-
+  strArray = [];  //globalize and variable array
   // prompt for initial questions
     inquirer
       .prompt(initialQuestions)
       .then (function(initial){
         console.log(initial)
-        console.log(initial.managerNumber-1)
         // for (i=0; i < initial.managerNumber-1; i++) {
          managerInput();
         // }
-        
 
     var array = "";
     let filename = "./templates/main.html"
@@ -139,9 +137,6 @@ function init(){
   })
 }
 
-
-init();
-
 function managerInput(){
   console.log("Manager Input:")
   inquirer
@@ -161,11 +156,10 @@ function managerInput(){
             return console.log(error);
           }
           console.log(`Success read manager!`);
-          console.log(data)
-          //https://www.w3schools.com/jsref/jsref_replace.asp
-         
+          
           newDataStr = updateContent(data, manager)
-          console.log(newDataStr)
+          strArray.push(newDataStr)
+          console.log(strArray)
           // fs.writeFile("./output/team2.html", data, function(err){
           //   if(err){
           //     throw err;
@@ -177,31 +171,31 @@ function managerInput(){
     })
 }
 
+//https://www.w3schools.com/jsref/jsref_replace.asp, replace text with role.property
 function updateContent (data, role){
-  console.log(data)
-  percentName = data.replace("%Name", role.name)
-  percentId = percentName.replace("%id", role.id)
-  percentEmail = percentId.replace("%email", role.email)
-  percentRole = percentEmail.replace("%Role", role.getRole)
+  data = data.replace("%Name", role.name)
+  data = data.replace("%id", role.id)
+  data = data.replace("%email", role.email)
+  data = data.replace("%Role", role.getRole)
   switch (role.getRole()) {
 
     case "Manager":
-      percentOffice = percentRole.replace("%officeNumber", role.officeNumber)
-      console.log(percentOffice)
-      return percentOffice;
+      data = data.replace("%officeNumber", role.officeNumber)
+      return data;
       break;
     
     case "Engineer":
-      percentgithub = percentRole.replace("%github", role.github)
-      console.log(percentgithub)
-      return percentgithub;
+      data = data.replace("%github", role.github)
+      return data;
       break;
     
     case "Intern":
-      percentschool = percentRole.replace("%school", role.school)
-      console.log(percentschool)
-      return percentschool;
+      data = data.replace("%school", role.school)
+      return data;
       break;
     }
 
 }
+
+
+init();
