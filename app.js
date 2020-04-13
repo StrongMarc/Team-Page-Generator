@@ -155,7 +155,18 @@ function updateContent (data, role){
       console.log(percentOffice)
       return percentOffice;
       break;
-   
+    
+    case "Engineer":
+      percentgithub = percentRole.replace("%github", role.github)
+      console.log(percentgithub)
+      return percentgithub;
+      break;
+    
+    case "Intern":
+      percentschool = percentRole.replace("%school", role.school)
+      console.log(percentschool)
+      return percentschool;
+      break;
     }
 
 }
