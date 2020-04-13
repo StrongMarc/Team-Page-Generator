@@ -102,18 +102,34 @@ const internQuestions = [
   },
 ];
 
+// write to team.html
+function writeToFile(filename, data){
+   // code for writing team.html file
+  fs.writeFile(filename, data, function(err){
+    if(err){
+      throw err;
+    }
+    console.log("Successfuly wrote to team2.html file")
+  });
+}
+
 function init(){
   strArray = [];  //globalize and variable array
+  var i = 0;
   // prompt for initial questions
     inquirer
       .prompt(initialQuestions)
       .then (function(initial){
         console.log(initial)
-        // for (i=0; i < initial.managerNumber-1; i++) {
-         managerInput();
-        // }
 
-    var array = "";
+        // for (i=0; i < initial.managerNumber; i++) {
+        //  managerInput();
+        // }
+        while (i < initial.managerNumber){
+          managerInput();
+          i++;
+        }
+   
     let filename = "./templates/main.html"
     readFile(filename)
 
@@ -126,20 +142,17 @@ function init(){
         }
         // console.log(`Success read!`);
 
-        fs.writeFile("./output/team.html", data, function(err){
-          if(err){
-            throw err;
-          }
-          // console.log("Successfuly wrote to team2.html file")
-        });
+        let filename = "./output/team.html"
+        writeToFile(filename, data)
       });  // end fs.readFile
     } // end function readFile  
   })
 }
 
-function managerInput(){
+async function managerInput(){
+  try{
   console.log("Manager Input:")
-  inquirer
+  await inquirer
     .prompt(managerQuestions)
     .then (function(response){
       var employee = new Employee(response.name, response.id, response.email)
@@ -169,6 +182,9 @@ function managerInput(){
         });  // end fs.readFile
       } // end function readFile  
     })
+  } catch (err){
+    console.log(err)
+  }
 }
 
 //https://www.w3schools.com/jsref/jsref_replace.asp, replace text with role.property
