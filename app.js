@@ -112,15 +112,13 @@ function init(){
       try{
         console.log(initial)
 
-        // for (i=0; i < initial.managerNumber; i++) {
-        await managerInput();
-        // }
-        // while (i < initial.managerNumber){
-        //   managerInput();
-        //   i++;
-        // }
-        await engineerInput();
-
+        for (i=0; i < initial.managerNumber; i++) {
+          await managerInput();
+        }
+        for (i=0; i < initial.managerNumber; i++) {
+          await engineerInput();
+        }
+        
         let filename = "./templates/main.html"
         readMainFile(filename, teamArray, initial);
         
