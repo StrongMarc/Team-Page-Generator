@@ -205,7 +205,7 @@ async function engineerInput(){
 // function to get intern input
 async function internInput(){
   try{
-  console.log("intern Input:")
+  console.log("Intern Input:")
   //prompt for engineer input properties
   let response = await inquirer
     .prompt(internQuestions)
@@ -242,7 +242,6 @@ function updateContent (data, role){
   data = data.replace("%id", role.id)
   data = data.replace("%email", role.email)
   data = data.replace("%Role", role.getRole)
-  console.log(role.getRole())
   switch (role.getRole()) {
 
     case "Manager":
@@ -257,7 +256,6 @@ function updateContent (data, role){
     
     case "Intern":
       data = data.replace("%school", role.school)
-      console.log(role.school)
       return data;
       break;
     }
