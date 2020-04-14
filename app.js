@@ -106,13 +106,14 @@ function init(){
   teamArray = [];  //globalize and variable array
   var i = 0;
   // prompt for initial questions
-    inquirer
-      .prompt(initialQuestions)
-      .then (function(initial){
+  inquirer
+    .prompt(initialQuestions)
+    .then (async function(initial){
+      try{
         console.log(initial)
 
         // for (i=0; i < initial.managerNumber; i++) {
-         managerInput();
+        await managerInput();
         // }
         // while (i < initial.managerNumber){
         //   managerInput();
@@ -120,9 +121,11 @@ function init(){
         // }
         engineerInput();
 
-    let filename = "./templates/main.html"
-    readMainFile(filename)
-   
+        let filename = "./templates/main.html"
+        readMainFile(filename, teamArray)
+      } catch (err){
+          console.log(err)
+      }
   })
 }
 
@@ -131,10 +134,9 @@ async function managerInput(){
   try{
   console.log("Manager Input:")
   //prompt for manager input properties
-  await inquirer
+  let response = await inquirer
     .prompt(managerQuestions)
-    .then (function(response){
-      var employee = new Employee(response.name, response.id, response.email)
+         var employee = new Employee(response.name, response.id, response.email)
       var manager = new Manager(response.name, response.id, response.email, response.officeNumber)
 
       let filename = "./templates/manager.html"
@@ -149,27 +151,27 @@ async function managerInput(){
           }
           console.log(`Success read manager!`);
           
-          // change %XXX to designated class properties
+          // change %XXX to designated input properties
           newDataStr = updateContent(data, manager)
           teamArray.push(newDataStr)
-          // console.log(teamArray)
+          console.log(teamArray)
          
         });  // end fs.readFile
       } // end function readFile  
-    })
+  
   } catch (err){
     console.log(err)
   }
 }
 
-// function to get manager input
-function engineerInput(){
-
+// function to get engineer input
+async function engineerInput(){
+  try{
   console.log("Engineer Input:")
-  //prompt for manager input properties
-  inquirer
+  //prompt for engineer input properties
+  let response = await inquirer
     .prompt(engineerQuestions)
-    .then (function(response){
+
       var employee = new Employee(response.name, response.id, response.email)
       var engineer = new Engineer(response.name, response.id, response.email, response.officeNumber)
 
@@ -185,14 +187,17 @@ function engineerInput(){
           }
           console.log(`Success read engineer!`);
           
-          // change %XXX to designated class properties
+          // change %XXX to designated input properties
           newDataStr = updateContent(data, engineer)
           teamArray.push(newDataStr)
-          console.log(teamArray)
+          // console.log(teamArray)
          
         });  // end fs.readFile
       } // end function readFile  
-    })
+   
+  } catch (err){
+    console.log(err)
+  }
 }
 
 //https://www.w3schools.com/jsref/jsref_replace.asp, replace text with role.property
@@ -218,20 +223,30 @@ function updateContent (data, role){
       return data;
       break;
     }
+}
 
+function updateMain (data, teamStr){
+  console.log(teamStr)
+  data = data.replace("%teamcards", teamStr)
+      return data;
 }
 
 // read main.html and then write 
-function readMainFile(fileName) {
+function readMainFile(fileName, teamArray) {
   // code for reading main.html file
   fs.readFile(fileName, "utf8", function(error, data) {
     if (error) {
       return console.log(error);
     }
     // console.log(`Success read!`);
+    console.log(teamArray)
+    console.log("hi")
+    teamStr = teamArray.join();
+    console.log(teamStr)
+    newDataStr = updateMain(data, teamStr)
 
     let filename = "./output/team.html"
-    writeToFile(filename, data)
+    writeToFile(filename, newDataStr)
   });  // end fs.readFile
 } // end function readFile  
 
