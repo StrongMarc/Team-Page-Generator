@@ -119,10 +119,11 @@ function init(){
         //   managerInput();
         //   i++;
         // }
-        engineerInput();
+        await engineerInput();
 
         let filename = "./templates/main.html"
-        readMainFile(filename, teamArray)
+        readMainFile(filename, teamArray, initial);
+        
       } catch (err){
           console.log(err)
       }
@@ -225,25 +226,23 @@ function updateContent (data, role){
     }
 }
 
-function updateMain (data, teamStr){
+function updateMain (data, teamStr, initial){
+  console.log(initial)
   console.log(teamStr)
   data = data.replace("%teamcards", teamStr)
+  data = data.replace("%teamname", initial.teamName)
       return data;
 }
 
 // read main.html and then write 
-function readMainFile(fileName, teamArray) {
+function readMainFile(fileName, teamArray, initial) {
   // code for reading main.html file
   fs.readFile(fileName, "utf8", function(error, data) {
     if (error) {
       return console.log(error);
     }
-    // console.log(`Success read!`);
-    console.log(teamArray)
-    console.log("hi")
     teamStr = teamArray.join();
-    console.log(teamStr)
-    newDataStr = updateMain(data, teamStr)
+    newDataStr = updateMain(data, teamStr, initial)
 
     let filename = "./output/team.html"
     writeToFile(filename, newDataStr)
