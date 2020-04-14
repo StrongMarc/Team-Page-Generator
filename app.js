@@ -75,7 +75,7 @@ const engineerQuestions = [
   {
     type: "input",
     message: "What is the engineer GitHub Username?",
-    name: "officeNumber",
+    name: "github",
   },
 ];
 
@@ -98,7 +98,7 @@ const internQuestions = [
   {
     type: "input",
     message: "What is the intern school?",
-    name: "officeNumber",
+    name: "school",
   },
 ];
 
@@ -110,13 +110,19 @@ function init(){
     .prompt(initialQuestions)
     .then (async function(initial){
       try{
-        console.log(initial)
-
+        // async managerInput, prompt manager questions and add manager card to array
         for (i=0; i < initial.managerNumber; i++) {
           await managerInput();
         }
-        for (i=0; i < initial.managerNumber; i++) {
+
+        // async engineerInput, prompt engineer questions and add engineer card to array
+        for (i=0; i < initial.engineerNumber; i++) {
           await engineerInput();
+        }
+
+        // async internInput, prompt intern questions and add intern card to array
+        for (i=0; i < initial.internNumber; i++) {
+          await internInput();
         }
         
         let filename = "./templates/main.html"
@@ -132,10 +138,11 @@ function init(){
 async function managerInput(){
   try{
   console.log("Manager Input:")
+
   //prompt for manager input properties
   let response = await inquirer
     .prompt(managerQuestions)
-         var employee = new Employee(response.name, response.id, response.email)
+      var employee = new Employee(response.name, response.id, response.email)
       var manager = new Manager(response.name, response.id, response.email, response.officeNumber)
 
       let filename = "./templates/manager.html"
@@ -148,13 +155,11 @@ async function managerInput(){
           if (error) {
             return console.log(error);
           }
-          console.log(`Success read manager!`);
-          
+
           // change %XXX to designated input properties
           newDataStr = updateContent(data, manager)
           teamArray.push(newDataStr)
-          console.log(teamArray)
-         
+
         });  // end fs.readFile
       } // end function readFile  
   
@@ -172,25 +177,57 @@ async function engineerInput(){
     .prompt(engineerQuestions)
 
       var employee = new Employee(response.name, response.id, response.email)
-      var engineer = new Engineer(response.name, response.id, response.email, response.officeNumber)
+      var engineer = new Engineer(response.name, response.id, response.email, response.github)
 
       let filename = "./templates/engineer.html"
       readFile(filename, engineer)
 
-      // read manager.html
+      // read engineer.html
       function readFile(fileName, engineer) {
-        // code for reading manager.html file
+        // code for reading engineer.html file
         fs.readFile(fileName, "utf8", function(error, data) {
           if (error) {
             return console.log(error);
           }
-          console.log(`Success read engineer!`);
-          
+
           // change %XXX to designated input properties
           newDataStr = updateContent(data, engineer)
           teamArray.push(newDataStr)
-          // console.log(teamArray)
-         
+
+        });  // end fs.readFile
+      } // end function readFile  
+   
+  } catch (err){
+    console.log(err)
+  }
+}
+
+// function to get intern input
+async function internInput(){
+  try{
+  console.log("intern Input:")
+  //prompt for engineer input properties
+  let response = await inquirer
+    .prompt(internQuestions)
+
+      var employee = new Employee(response.name, response.id, response.email)
+      var intern = new Intern(response.name, response.id, response.email, response.school)
+
+      let filename = "./templates/intern.html"
+      readFile(filename, intern)
+
+      // read intern.html
+      function readFile(fileName, intern) {
+        // code for reading intern.html file
+        fs.readFile(fileName, "utf8", function(error, data) {
+          if (error) {
+            return console.log(error);
+          }
+
+          // change %XXX to designated input properties
+          newDataStr = updateContent(data, intern)
+          teamArray.push(newDataStr)
+
         });  // end fs.readFile
       } // end function readFile  
    
@@ -205,6 +242,7 @@ function updateContent (data, role){
   data = data.replace("%id", role.id)
   data = data.replace("%email", role.email)
   data = data.replace("%Role", role.getRole)
+  console.log(role.getRole())
   switch (role.getRole()) {
 
     case "Manager":
@@ -219,14 +257,13 @@ function updateContent (data, role){
     
     case "Intern":
       data = data.replace("%school", role.school)
+      console.log(role.school)
       return data;
       break;
     }
 }
 
 function updateMain (data, teamStr, initial){
-  console.log(initial)
-  console.log(teamStr)
   data = data.replace("%teamcards", teamStr)
   data = data.replace("%teamname", initial.teamName)
       return data;
@@ -254,7 +291,7 @@ function writeToFile(filename, data){
     if(err){
       throw err;
     }
-    console.log("Successfuly wrote to team2.html file")
+    console.log("Successfuly wrote to team.html file")
   });
 }
 
